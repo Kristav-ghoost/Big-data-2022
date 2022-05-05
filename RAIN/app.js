@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb://rai_user:razvojspletnihaplikacij@127.0.0.1:27017';
+var mongoDB = 'mongodb://rai_user:razvojspletnihaplikacij@localhost/rai_db?authSource=admin';
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
@@ -23,12 +23,12 @@ app.set('view engine', 'hbs');
 
 // Session
 var session = require('express-session');
-//var MongoStore = require('connect-mongo');
+var MongoStore = require('connect-mongo');
 app.use(session({
   secret: 'work hard',
   resave: true,
-  saveUninitialized: false
-  //store: MongoStore.create({mongoUrl: mongoDB})
+  saveUninitialized: false,
+  store: MongoStore.create({mongoUrl: mongoDB})
 }));
 
 
