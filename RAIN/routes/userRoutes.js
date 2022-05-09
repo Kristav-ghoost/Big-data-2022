@@ -9,6 +9,7 @@ router.get('/', userController.list);
 router.get('/login', userController.showLogin);
 router.get('/register', userController.showRegister);
 router.get('/logout', userController.logout);
+router.get('/profile', userController.profile);
 
 /*
  * GET
