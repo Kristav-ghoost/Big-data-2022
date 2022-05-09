@@ -5,12 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.example.npoproject.databinding.ActivityRegisterBinding
 import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.FuelManager
-import com.github.kittinunf.fuel.core.Headers
-import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.core.extensions.jsonBody
-import com.github.kittinunf.fuel.httpPost
-import com.google.gson.JsonParseException
 import timber.log.Timber
 import java.lang.Exception
 
@@ -30,26 +25,37 @@ class Register : AppCompatActivity() {
     }
 
     fun Register(view: android.view.View) {
-        val username: String = binding.username.text.toString()
-        val password: String = binding.password.text.toString()
-        val email: String = binding.email.text.toString()
 
-        try {
-            val fuel = Fuel.post("http://164.8.216.130:777/users").jsonBody("{ \"username\" : \"$username\", \"password\" : \"$password\", \"email\" : \"$email\" }").response { result -> }
-            val bol: Boolean = fuel.get().toString().contains("Created")
+        if (binding.username.text.isNotEmpty() && binding.password.text.isNotEmpty() && binding.email.text.isNotEmpty()){
+            val username: String = binding.username.text.toString()
+            val password: String = binding.password.text.toString()
+            val email: String = binding.email.text.toString()
 
-            if (bol){
-                binding.username.setText("")
-                binding.password.setText("")
-                binding.email.setText("")
-                Toast.makeText(applicationContext, "Uspesna registracija!", Toast.LENGTH_SHORT).show()
-                finish()
-            }
-            else{
+            try {
+                val fuel = Fuel.post("http://164.8.216.130:777/users").jsonBody("{ \"username\" : \"$username\", \"password\" : \"$password\", \"email\" : \"$email\" }").response { request, response, result -> }
+                val a = fuel.get()
+                val status_code = a.statusCode
+                Timber.d("$status_code")
+
+                if (status_code == 200){
+                    binding.username.setText("")
+                    binding.password.setText("")
+                    binding.email.setText("")
+                    Toast.makeText(applicationContext, "Uspesna registracija!", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+                else if (status_code == 500){
+                    Toast.makeText(applicationContext, "Uporabnisko ime ali email sta zasedena", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    Toast.makeText(applicationContext, "Tezava z registracijo", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception){
                 Toast.makeText(applicationContext, "Tezava z registracijo", Toast.LENGTH_SHORT).show()
             }
-        } catch (e: Exception){
-            Toast.makeText(applicationContext, "Tezava z registracijo", Toast.LENGTH_SHORT).show()
+        }
+        else{
+            Toast.makeText(applicationContext, "Izpolnite vsa polja", Toast.LENGTH_SHORT).show()
         }
     }
 }
