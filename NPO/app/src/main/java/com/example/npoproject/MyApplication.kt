@@ -25,4 +25,84 @@ class MyApplication: Application(){
         Timber.d("File path ${file.path}")
         super.onCreate()
     }
+
+    //username
+    fun saveUsername(usr: String){
+        with(sharedPref.edit()){
+            putString("Username", usr)
+            apply()
+        }
+    }
+
+    fun containsUsername(): Boolean{
+        return sharedPref.contains("Username")
+    }
+
+    fun returnUsername(): String?{
+        return sharedPref.getString("Username","DefaultNoData")
+    }
+
+    //id
+    fun saveID(id: String){
+        with(sharedPref.edit()){
+            putString("ID", id)
+            apply()
+        }
+    }
+
+    fun containsId(): Boolean{
+        return sharedPref.contains("ID")
+    }
+
+    fun returnId(): String?{
+        return sharedPref.getString("ID","DefaultNoData")
+    }
+
+    //email
+    fun saveEmail(email: String){
+        with(sharedPref.edit()){
+            putString("Email", email)
+            apply()
+        }
+    }
+
+    fun containsEmail(): Boolean{
+        return sharedPref.contains("Email")
+    }
+
+    fun returnEmail(): String?{
+        return sharedPref.getString("Email","DefaultNoData")
+    }
+
+    //v
+    fun saveV(v: String){
+        with(sharedPref.edit()){
+            putString("V", v)
+            apply()
+        }
+    }
+
+    fun containsV(): Boolean{
+        return sharedPref.contains("V")
+    }
+
+    fun returnV(): String?{
+        return sharedPref.getString("V","DefaultNoData")
+    }
+
+    //logedIn
+    fun saveLogin(vib: Boolean){
+        with(sharedPref.edit()){
+            putBoolean("Login", vib)
+            apply()
+        }
+    }
+
+    fun returnLogin(): Boolean{
+        return sharedPref.contains("Login")
+    }
+
+    fun getLogin(): Boolean{
+        return sharedPref.getBoolean("Login",true)
+    }
 }

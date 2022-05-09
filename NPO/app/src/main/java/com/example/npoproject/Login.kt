@@ -11,15 +11,27 @@ import android.widget.Toast
 import com.example.npoproject.databinding.ActivityLoginBinding
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.extensions.jsonBody
+import com.github.kittinunf.fuel.gson.jsonBody
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import org.json.JSONObject
+import org.json.JSONTokener
+import retrofit2.http.Body
 import timber.log.Timber
 import java.lang.Exception
 
 class Login : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
+    lateinit var app: MyApplication
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        app = application as MyApplication
 
 
         binding.registerBtn.setOnClickListener {
@@ -29,26 +41,55 @@ class Login : AppCompatActivity() {
     }
 
     fun Login(view: android.view.View) {
-        val username = binding.username.text
-        val password = binding.password.text
+        val gson = GsonBuilder().setPrettyPrinting().create()
 
-        try {
-            val fuel = Fuel.post("http://164.8.216.130:777/users/login").jsonBody("{ \"username\" : \"$username\", \"password\" : \"$password\" }").response { request, response, result -> }
-            val bol1: Boolean = fuel.get().toString().contains("OK")
-            val bol2: Boolean = fuel.get().toString().contains("Unauthorized")
+        if (binding.username.text.isNotEmpty() && binding.password.text.isNotEmpty()){
+            val username = binding.username.text
+            val password = binding.password.text
 
-            if (bol1 == true && bol2 == false){
-                hideKeyboard()
-                binding.username.setText("")
-                binding.password.setText("")
-                Toast.makeText(applicationContext, "Uspesna prijava!", Toast.LENGTH_SHORT).show()
+
+            try {
+                val fuel = Fuel.post("http://164.8.216.130:777/users/login").jsonBody("{ \"username\" : \"$username\", \"password\" : \"$password\" }").response { request, response, result -> }
+
+                val a = fuel.get()
+                val status_code = a.statusCode
+                Timber.d("$status_code")
+                val myBody = String(a.data)
+                val parseString = JsonParser.parseString(myBody)
+                val jsonObject = gson.fromJson(parseString, JsonObject::class.java)
+
+
+                if (status_code == 200){
+                    hideKeyboard()
+                    binding.username.setText("")
+                    binding.password.setText("")
+                    Toast.makeText(applicationContext, "Uspesna prijava!", Toast.LENGTH_SHORT).show()
+                    val id_post = jsonObject.get("_id").asString
+                    val username_post = jsonObject.get("username").asString
+                    val email_post = jsonObject.get("email").asString
+                    val v_post = jsonObject.get("__v").asString
+                    app.saveLogin(true)
+                    app.saveUsername(username_post)
+                    app.saveID(id_post)
+                    app.saveEmail(email_post)
+                    app.saveV(v_post)
+                    val intent = Intent(this, Dashboard::class.java)
+                    startActivity(intent)
+                }
+                else if (status_code == 401){
+                    hideKeyboard()
+                    Toast.makeText(applicationContext, "Napacno uporabnisko ime ali geslo", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    hideKeyboard()
+                    Toast.makeText(applicationContext, "Tezava z prijavo", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception){
+                Toast.makeText(applicationContext, "Napacno uporabnisko ime ali geslo", Toast.LENGTH_SHORT).show()
             }
-            else if (bol1 == false && bol2 == true){
-                hideKeyboard()
-                Toast.makeText(applicationContext, "Tezava z prijavo", Toast.LENGTH_SHORT).show()
-            }
-        } catch (e: Exception){
-            Toast.makeText(applicationContext, "Tezava z projavo", Toast.LENGTH_SHORT).show()
+        }
+        else{
+            Toast.makeText(applicationContext, "Izpolnite vsa polja", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -60,6 +101,4 @@ class Login : AppCompatActivity() {
         val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
-
-
 }
