@@ -4,9 +4,9 @@ var bcrypt = require('bcrypt');
 
 
 var userSchema = new Schema({
-	'username' : String,
+	'username' : { type: String, required: true , unique: true},
 	'password' : String,
-	'email' : String
+	'email' : { type: String, required: true , unique: true}
 });
 
 userSchema.statics.authenticate = function(username, password, callback){
