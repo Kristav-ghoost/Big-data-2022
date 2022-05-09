@@ -5,7 +5,7 @@ var bcrypt = require('bcrypt');
 
 var userSchema = new Schema({
 	'username' : { type: String, required: true , unique: true},
-	'password' : String,
+	'password' : { type: String, required: true },
 	'email' : { type: String, required: true , unique: true}
 });
 
@@ -26,23 +26,6 @@ userSchema.statics.authenticate = function(username, password, callback){
 					return callback();
 				}
 			});
-		});
-};
-
-userSchema.statics.checkNameEmail = function(username, email, callback){
-	User.findOne({$or:[{username: username}, {email: email}]})
-		.exec(function(err, user){
-			if(!user){
-				console.log("ni najslo");
-				var err = new Error("Username or email taken");
-				err.status = 401;
-				return callback(user);
-				
-			}
-			else{
-				console.log("je njaslo");
-				return callback(null,user);
-			}
 		});
 };
 
