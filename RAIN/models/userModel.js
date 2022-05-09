@@ -29,6 +29,23 @@ userSchema.statics.authenticate = function(username, password, callback){
 		});
 };
 
+userSchema.statics.checkNameEmail = function(username, email, callback){
+	User.findOne({$or:[{username: username}, {email: email}]})
+		.exec(function(err, user){
+			if(!user){
+				console.log("ni najslo");
+				var err = new Error("Username or email taken");
+				err.status = 401;
+				return callback(user);
+				
+			}
+			else{
+				console.log("je njaslo");
+				return callback(null,user);
+			}
+		});
+};
+
 userSchema.pre('save', function(next){
 	var user = this;
 	bcrypt.hash(user.password, 10, function(err, hash){

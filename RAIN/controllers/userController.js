@@ -41,7 +41,7 @@ module.exports = {
             }else{
                 req.session.userId = user._id;
                 req.session.userName = user.username;
-                return res.redirect("/");
+                return res.status(200).json(user);
             }
         });
     },
@@ -93,8 +93,24 @@ module.exports = {
 			password : req.body.password,
 			email : req.body.email
         });
-
-        console.log(user);
+        /*
+        UserModel.checkNameEmail(req.body.username, req.body.email, function(error, user){
+            if(user == null){
+                console.log("sem pride");
+                user.save(function (err, user) {
+                    if (err) {
+                        return res.status(500).json({
+                            message: 'Error when creating user',
+                            error: err
+                        });
+                    }
+                    
+                    return res.status(201).json(user);
+                });
+            }else{
+                return res.status(404).json({ error: 'Unauthorized' });
+            }
+        })*/
 
         user.save(function (err, user) {
             if (err) {
@@ -103,7 +119,7 @@ module.exports = {
                     error: err
                 });
             }
-
+            
             return res.status(201).json(user);
         });
     },
