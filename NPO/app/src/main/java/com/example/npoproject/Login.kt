@@ -73,7 +73,7 @@ class Login : AppCompatActivity() {
                     app.saveID(id_post)
                     app.saveEmail(email_post)
                     app.saveV(v_post)
-                    val intent = Intent(this, Dashboard::class.java)
+                    val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 }
                 else if (status_code == 401){
