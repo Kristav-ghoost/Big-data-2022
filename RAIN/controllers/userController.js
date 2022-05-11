@@ -42,12 +42,11 @@ module.exports = {
                 req.session.userId = user._id;
                 req.session.userName = user.username;
                 return res.redirect("/");
-                //return res.status(200).json(user);
             }
         });
     },
 
-    //Login phone
+    //Login phone (za NPO)
     loginPhone: function(req, res, next){
         UserModel.authenticate(req.body.username, req.body.password, function(error, user){
             if(error || !user){
@@ -55,9 +54,6 @@ module.exports = {
                 err.status = 401;
                 return next(err);
             }else{
-                //req.session.userId = user._id;
-                //req.session.userName = user.username;
-                //return res.redirect("/");
                 return res.status(200).json(user);
             }
         });
