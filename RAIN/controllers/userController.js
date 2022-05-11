@@ -41,6 +41,22 @@ module.exports = {
             }else{
                 req.session.userId = user._id;
                 req.session.userName = user.username;
+                return res.redirect("/");
+                //return res.status(200).json(user);
+            }
+        });
+    },
+
+    //Login phone
+    loginPhone: function(req, res, next){
+        UserModel.authenticate(req.body.username, req.body.password, function(error, user){
+            if(error || !user){
+                var err = new Error("Wrong username or password");
+                err.status = 401;
+                return next(err);
+            }else{
+                //req.session.userId = user._id;
+                //req.session.userName = user.username;
                 //return res.redirect("/");
                 return res.status(200).json(user);
             }
