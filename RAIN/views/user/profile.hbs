@@ -1,12 +1,12 @@
-<h1 style="text-align: center;">USER PROFILE</h1>
+<h1 style="text-align: center;">PROFILE</h1>
 <div class="profileBox">
     {{#each users}}
         {{#if (eq _id ../id)}}
-            <h2>USERNAME: {{username}} </h2>
-            <h2>E-MAIL: {{email}} </h2>
+            <p style="font-size: 25px;"><b>USERNAME:</b> <i>{{username}}</i></p>
+            <p style="font-size: 25px;"><b>E-Mail:</b> <i>{{email}}</i></p>
         {{/if}}
     {{/each}}
 </div>
 
 
-<div style="text-align: center;"><a type="button" href="logout">Odjava</a></div>
+<div style="text-align: center; margin-top: 50px"><a type="button" href="logout">Odjava</a></div>
