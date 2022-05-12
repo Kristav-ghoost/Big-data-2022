@@ -34,8 +34,9 @@ class Login : AppCompatActivity() {
         app = application as MyApplication
 
 
+        //Naredi nazaj na intent register
         binding.registerBtn.setOnClickListener {
-            val intent = Intent(this, Register::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
     }
