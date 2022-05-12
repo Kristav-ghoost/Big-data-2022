@@ -4,6 +4,10 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.location.Location
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
@@ -14,11 +18,18 @@ import androidx.core.app.ActivityCompat
 import com.example.npoproject.databinding.ActivityMainBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import kotlin.math.sqrt
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var binding: ActivityMainBinding
     private val TAG = MainActivity::class.java.simpleName
     lateinit var app: MyApplication
+
+    //Sensor
+    private lateinit var sensorManager: SensorManager
+    private lateinit var accelerometer: Sensor
+    private var currAccValue: Int = 0
+    private var preAccValue: Int = 0
 
     //Location
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -29,6 +40,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         app = application as MyApplication
 
+        //Sensor
+        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+
+        accelerometer?.also {
+            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+
+        //Location
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
         //Open your profile
@@ -43,6 +63,31 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //ACCELEROMETER
+    override fun onSensorChanged(p0: SensorEvent?) {
+        if(p0?.sensor?.type == Sensor.TYPE_ACCELEROMETER){
+            val x = p0.values[0]
+            val y = p0.values[1]
+            val z = p0.values[2]
+
+            currAccValue = sqrt((x * x + y * y + z * z).toDouble()).toInt()
+            val diffAcc = Math.abs(currAccValue - preAccValue)
+            preAccValue = currAccValue
+
+            binding.one.setText("Curr = " + currAccValue)
+            binding.two.setText("Pre = " + preAccValue)
+            binding.three.text = "Diff = " + diffAcc
+
+            binding.progressBar2.progress = diffAcc
+
+        }
+    }
+
+    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
+        return
+    }
+
+    //LOCATION
     companion object{
         private const val PERMISSION_REQUEST_ACCESS_LOCATION=100
     }
@@ -62,9 +107,9 @@ class MainActivity : AppCompatActivity() {
                     if(location == null){
                         Toast.makeText(this, "Error finding location", Toast.LENGTH_SHORT).show()
                     }else{
-                        binding.lat.text = location?.latitude.toString()
-                        binding.lon.text = location?.longitude.toString()
-                        Toast.makeText(this, location?.longitude.toString(), Toast.LENGTH_SHORT).show()
+                        binding.lat.text = location.latitude.toString()
+                        binding.lon.text = location.longitude.toString()
+                        Toast.makeText(this, location.longitude.toString(), Toast.LENGTH_SHORT).show()
                     }
                 }
             }else{
@@ -112,6 +157,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 }
 
 
