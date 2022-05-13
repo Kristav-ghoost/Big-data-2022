@@ -23,22 +23,22 @@ module.exports = {
         });
     },
 
-    showLogin: function(req, res){
+    showLogin: function (req, res) {
         return res.render('user/login')
     },
 
-    showRegister: function(req, res){
+    showRegister: function (req, res) {
         return res.render('user/register')
     },
 
     //Login
-    login: function(req, res, next){
-        UserModel.authenticate(req.body.username, req.body.password, function(error, user){
-            if(error || !user){
+    login: function (req, res, next) {
+        UserModel.authenticate(req.body.username, req.body.password, function (error, user) {
+            if (error || !user) {
                 var err = new Error("Wrong username or password");
                 err.status = 401;
                 return next(err);
-            }else{
+            } else {
                 req.session.userId = user._id;
                 req.session.userName = user.username;
                 return res.redirect("/");
@@ -47,25 +47,25 @@ module.exports = {
     },
 
     //Login phone (za NPO)
-    loginPhone: function(req, res, next){
-        UserModel.authenticate(req.body.username, req.body.password, function(error, user){
-            if(error || !user){
+    loginPhone: function (req, res, next) {
+        UserModel.authenticate(req.body.username, req.body.password, function (error, user) {
+            if (error || !user) {
                 var err = new Error("Wrong username or password");
                 err.status = 401;
                 return next(err);
-            }else{
+            } else {
                 return res.status(200).json(user);
             }
         });
     },
 
     //Logout
-    logout: function(req, res, next){
-        if(req.session){
-            req.session.destroy(function(err){
-                if(err){
+    logout: function (req, res, next) {
+        if (req.session) {
+            req.session.destroy(function (err) {
+                if (err) {
                     return next(err);
-                }else{
+                } else {
                     return res.redirect('/');
                 }
             });
@@ -73,17 +73,17 @@ module.exports = {
     },
 
     //Profile
-    profile: function(req, res, next){
+    profile: function (req, res, next) {
         var id = req.session.userId;
-        UserModel.findById(req.session.userId).exec(function(error, user){
-            if(error){
+        UserModel.findById(req.session.userId).exec(function (error, user) {
+            if (error) {
                 return next(error);
-            }else{
-                if(user === null){
+            } else {
+                if (user === null) {
                     var err = new Error("Not authenticated!");
                     err.status = 401;
                     return next(err);
-                }else{
+                } else {
                     var data = [];
                     data.users = user;
                     data.id = id;
@@ -92,7 +92,6 @@ module.exports = {
             }
         })
     },
-
 
 
     /**
@@ -124,9 +123,9 @@ module.exports = {
      */
     create: function (req, res) {
         var user = new UserModel({
-			username : req.body.username,
-			password : req.body.password,
-			email : req.body.email
+            username: req.body.username,
+            password: req.body.password,
+            email: req.body.email
         });
         /*
         UserModel.checkNameEmail(req.body.username, req.body.email, function(error, user){
@@ -154,7 +153,7 @@ module.exports = {
                     error: err
                 });
             }
-            
+
             return res.redirect('/users/login');
         });
     },
@@ -180,9 +179,9 @@ module.exports = {
             }
 
             user.username = req.body.username ? req.body.username : user.username;
-			user.password = req.body.password ? req.body.password : user.password;
-			user.email = req.body.email ? req.body.email : user.email;
-			
+            user.password = req.body.password ? req.body.password : user.password;
+            user.email = req.body.email ? req.body.email : user.email;
+
             user.save(function (err, user) {
                 if (err) {
                     return res.status(500).json({

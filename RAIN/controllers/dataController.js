@@ -23,7 +23,7 @@ module.exports = {
         });*/
         var id = req.session.userId;
 
-        DataModel.find().populate('author').then(datas =>{
+        DataModel.find().populate('author').then(datas => {
             var data = [];
             data.dat = datas;
             data.id = id;
@@ -33,7 +33,7 @@ module.exports = {
     },
 
     //Dodaj
-    add: function(req, res){
+    add: function (req, res) {
         return res.render('data/add');
     },
 
@@ -66,9 +66,9 @@ module.exports = {
      */
     create: function (req, res) {
         var data = new DataModel({
-			latitude : req.body.latitude,
-			longitude : req.body.longitude,
-            author : req.session.userId
+            latitude: req.body.latitude,
+            longitude: req.body.longitude,
+            author: req.session.userId
         });
 
         data.save(function (err, data) {
@@ -104,8 +104,8 @@ module.exports = {
             }
 
             data.latitude = req.body.latitude ? req.body.latitude : data.latitude;
-			data.longitude = req.body.longitude ? req.body.longitude : data.longitude;
-			
+            data.longitude = req.body.longitude ? req.body.longitude : data.longitude;
+
             data.save(function (err, data) {
                 if (err) {
                     return res.status(500).json({
