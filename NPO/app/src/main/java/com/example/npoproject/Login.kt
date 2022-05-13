@@ -53,7 +53,7 @@ class Login : AppCompatActivity() {
                 val fuel = Fuel.post("http://164.8.216.130:777/users/login").jsonBody("{ \"username\" : \"$username\", \"password\" : \"$password\" }").response { request, response, result -> }
 
                 val a = fuel.get()
-                val status_code = a.statusCode
+                val status_code: Int = a.statusCode
                 Timber.d("$status_code")
                 val myBody = String(a.data)
                 val parseString = JsonParser.parseString(myBody)
