@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb://rai_user:razvojspletnihaplikacij@localhost/rai_db?authSource=admin';
+var mongoDB = 'mongodb://rai_user:razvojspletnihaplikacij@164.8.216.130/rai_db?authSource=admin';
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
