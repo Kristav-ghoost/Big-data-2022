@@ -1,8 +1,12 @@
-<h1>REGISTRACIJA</h1>
+<h2 class="my_heading">REGISTRACIJA</h2>
 <form action="/users" method="post">
-    <input type="text" name="email" placeholder="E-Mail" required>
-    <input type="text" name="username" placeholder="Username" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <input type="submit" value="REGISTER">
+    <label for="name" class="form__label">Email</label>
+    <input class="form__field" type="text" name="email" placeholder="E-Mail" required>
+    <label for="name" class="form__label">Username</label>
+    <input class="form__field" type="text" name="username" placeholder="Username" required>
+    <label for="name" class="form__label">Password</label>
+    <input class="form__field" type="password"  name="password" placeholder="Password" required>
+
+    <input type="submit" id="add_button" value="REGISTER">
 </form>
 
