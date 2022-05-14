@@ -17,6 +17,7 @@ router.get('/:id', dataController.show);
  * POST
  */
 router.post('/', dataController.create);
+router.post('/createPhone', dataController.createPhone);
 
 /*
  * PUT

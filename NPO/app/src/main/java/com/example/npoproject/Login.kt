@@ -34,9 +34,8 @@ class Login : AppCompatActivity() {
         app = application as MyApplication
 
 
-        //Naredi nazaj na intent register
         binding.registerBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, Register::class.java)
             startActivity(intent)
         }
     }
@@ -50,11 +49,10 @@ class Login : AppCompatActivity() {
 
 
             try {
-                val fuel = Fuel.post("http://164.8.216.130:777/users/login").jsonBody("{ \"username\" : \"$username\", \"password\" : \"$password\" }").response { request, response, result -> }
+                val fuel = Fuel.post("http://164.8.216.130:777/users/loginPhone").jsonBody("{ \"username\" : \"$username\", \"password\" : \"$password\" }").response { request, response, result -> }
 
                 val a = fuel.get()
                 val status_code: Int = a.statusCode
-                Timber.d("$status_code")
                 val myBody = String(a.data)
                 val parseString = JsonParser.parseString(myBody)
                 val jsonObject = gson.fromJson(parseString, JsonObject::class.java)
@@ -86,7 +84,7 @@ class Login : AppCompatActivity() {
                     Toast.makeText(applicationContext, "Tezava z prijavo", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception){
-                Toast.makeText(applicationContext, "Napacno uporabnisko ime ali geslo", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Exception", Toast.LENGTH_SHORT).show()
             }
         }
         else{
