@@ -2,8 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var dataSchema = new Schema({
-    'latitude': Number,
-    'longitude': Number,
+    'data' : [{ lat : Number, lng : Number, _id: false}],
     'author': {type: Schema.Types.ObjectId, ref: 'user'}
 });
 

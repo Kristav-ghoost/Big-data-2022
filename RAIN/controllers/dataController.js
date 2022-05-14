@@ -66,9 +66,26 @@ module.exports = {
      */
     create: function (req, res) {
         var data = new DataModel({
-            latitude: req.body.latitude,
-            longitude: req.body.longitude,
+            data: req.body.data,
             author: req.session.userId
+        });
+
+        data.save(function (err, data) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when creating data',
+                    error: err
+                });
+            }
+
+            return res.redirect('/data');
+        });
+    },
+
+    createPhone: function (req, res) {
+        var data = new DataModel({
+            data: req.body.data,
+            author: req.body.author
         });
 
         data.save(function (err, data) {

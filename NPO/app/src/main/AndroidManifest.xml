@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.npoproject">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -18,14 +18,19 @@
         android:theme="@style/Theme.NPOProject"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Login"
+            android:exported="true" />
+        <activity
             android:name=".Dashboard"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".Register"
             android:exported="true" />
         <activity
-            android:name=".Login"
-            android:exported="true">
+            android:name=".IntroActivity"
+            android:exported="true"
+            android:noHistory="true"
+            android:label="">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

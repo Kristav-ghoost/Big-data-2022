@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "NPOProject"
 include ':app'
+include ':lib'
