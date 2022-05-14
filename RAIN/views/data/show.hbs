@@ -1,9 +1,11 @@
 <h2 class="my_heading">DATA</h2>
 <hr>
 {{#each dat}}
-    <p class="my_heading">Long: {{longitude}}</p>
-    <p class="my_heading">Lat: {{latitude}}</p>
-    <hr>
+    {{#each data}}
+        <p class="my_heading">Long: {{lat}}</p>
+        <p class="my_heading">Lat: {{lng}}</p>
+        <hr>
+    {{/each}}
 {{/each}}
 <div  class="my_heading" style="text-align: center; margin-top: 50px"><a type="button" href="/">Take me back home</a></div>
 
@@ -16,6 +18,12 @@
     map = new OpenLayers.Map("map");
     map.addLayer(new OpenLayers.Layer.OSM());
 
+    var defCenter = new OpenLayers.LonLat(15.645881 ,46.554650)
+        .transform(
+            new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+            map.getProjectionObject() // to Spherical Mercator Projection
+        );
+
     var lonLat = new OpenLayers.LonLat(15.645881 ,46.554650)
         .transform(
             new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
@@ -25,7 +33,21 @@
     map.addLayer(markers);
     markers.addMarker(new OpenLayers.Marker(lonLat));
 
+    {{#each dat}}
+        {{#each data}}
+            var lonLat = new OpenLayers.LonLat({{lng}}, {{lat}})
+                .transform(
+                    new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+                    map.getProjectionObject() // to Spherical Mercator Projection
+                );
+            var markers = new OpenLayers.Layer.Markers( "Markers" );
+            map.addLayer(markers);
+            markers.addMarker(new OpenLayers.Marker(lonLat));        
+        {{/each}}
+    {{/each}}
+
+
     var zoom=14;
-    map.setCenter (lonLat, zoom);
+    map.setCenter (defCenter, zoom);
 
 </script>
