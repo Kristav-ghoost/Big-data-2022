@@ -21,9 +21,13 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.npoproject.databinding.ActivityMainBinding
+import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.google.android.gms.location.*
 import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
+import com.google.gson.Gson
 import timber.log.Timber
+import java.lang.Exception
 import kotlin.math.sqrt
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
@@ -42,6 +46,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
     private var currentLocation: Location? = null
+
+    //Location array
+    val locationArray: MutableList<com.example.lib.Location> = ArrayList()
+    var latLonSum = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,18 +79,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             }
         }
 
-
         //Open your profile
         binding.account.setOnClickListener{
             val intent = Intent(this, Dashboard::class.java)
             startActivity(intent)
         }
 
-        //Display your coordinates
-        /*
-        binding.button.setOnClickListener {
-            getLocation()
-        }*/
+        getLocation()
     }
 
     //ACCELEROMETER
@@ -96,12 +99,23 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             val diffAcc = Math.abs(currAccValue - preAccValue)
             preAccValue = currAccValue
 
+            // Ce je prislo do tresljaja in ce je lokacija spremenjena dodaj v array
+            if(diffAcc > 5){
+                getLocation()
+                val lat = binding.lat.text.toString().toDouble()
+                val lon = binding.lon.text.toString().toDouble()
+                if(latLonSum != (lat + lon)){
+                    locationArray.add(com.example.lib.Location(lat, lon))
+                    Timber.d("Added to arr")
+                    latLonSum = lat + lon
+                }
+            }
+
             binding.one.setText("Curr = " + currAccValue)
             binding.two.setText("Pre = " + preAccValue)
             binding.three.text = "Diff = " + diffAcc
 
             binding.progressBar2.progress = diffAcc
-
         }
     }
 
@@ -178,11 +192,29 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
-    fun Locate(view: android.view.View) {
-
+    fun locate(view: android.view.View) {
         getLocation()
     }
 
+    fun sendArray(view: android.view.View) {
+        val gson = Gson()
+
+        val jsonArray: String = gson.toJson(locationArray)
+        val author: String? = app.returnId()
+
+        try {
+            val fuel = Fuel.post("http://164.8.216.130:777/data/createPhone").jsonBody("{ \"data\" : $jsonArray, \"author\" : \"$author\" }").response { request, response, result -> }
+            Timber.d(fuel.get().toString())
+            val a = fuel.get()
+            val status_code: Int = a.statusCode
+            if (status_code != 200){
+                Toast.makeText(applicationContext, "Tezava", Toast.LENGTH_SHORT).show()
+            }
+        }
+        catch (e: Exception){
+            Timber.d(e.message)
+        }
+    }
 }
 
 
