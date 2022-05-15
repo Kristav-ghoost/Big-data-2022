@@ -39,5 +39,13 @@ for root, dirs, files in os.walk(IMAGE_DIRECTORY):
                 trainer_array.append(roi)
                 label_array.append(label_id)
 
-print(trainer_array)
-print(label_array)
+# Shranim imena label
+with open("label.pickle", "wb") as f:
+    pickle.dump(label_ids, f)
+
+# Recognizer
+model = cv2.face_LBPHFaceRecognizer.create(radius=1, neighbors=8, grid_x=8, grid_y=8)
+
+# Natreniran model se shrani v trainer.yml
+model.train(trainer_array, np.array(label_array))
+model.save("trainer.yml")
