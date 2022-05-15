@@ -17,9 +17,6 @@ class Dashboard : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardBinding
     lateinit var app: MyApplication
 
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
@@ -49,10 +46,7 @@ class Dashboard : AppCompatActivity() {
             Location(321,321)
         );*/
         val Location_array: MutableList<Location> = ArrayList()
-        Location_array.add(Location(123,123))
-        Location_array.add(Location(123,123))
-        Location_array.add(Location(123,123))
-        Location_array.add(Location(123,123))
+        Location_array.add(Location(123.1,123.1))
 
         val jsonArray: String = gson.toJson(Location_array)
         val author: String? = app.returnId()
