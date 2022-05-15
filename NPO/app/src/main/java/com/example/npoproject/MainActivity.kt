@@ -2,6 +2,7 @@ package com.example.npoproject
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -15,14 +16,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.telecom.TelecomManager.EXTRA_LOCATION
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.npoproject.databinding.ActivityMainBinding
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.*
 import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
-import com.google.android.gms.location.LocationServices
 import timber.log.Timber
 import kotlin.math.sqrt
 
@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
+    private var currentLocation: Location? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +59,18 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         //Location
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        locationRequest = LocationRequest.create().apply {
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            interval = 1000
+            fastestInterval = 1000
+        }
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                super.onLocationResult(locationResult)
+                currentLocation = locationResult.lastLocation
+            }
+        }
+
 
         //Open your profile
         binding.account.setOnClickListener{
@@ -107,6 +120,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return
                 }
+                fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
                 fusedLocationProviderClient.lastLocation.addOnCompleteListener(this) { task->
                     Timber.d(task.result.toString())
                     var location: Location? = task.result
@@ -165,6 +179,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     fun Locate(view: android.view.View) {
+
         getLocation()
     }
 

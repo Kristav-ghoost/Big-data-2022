@@ -59,6 +59,7 @@ class Dashboard : AppCompatActivity() {
 
         try {
             val fuel = Fuel.post("http://164.8.216.130:777/data/createPhone").jsonBody("{ \"data\" : $jsonArray, \"author\" : \"$author\" }").response { request, response, result -> }
+            Timber.d(fuel.get().toString())
             val a = fuel.get()
             val status_code: Int = a.statusCode
             if (status_code != 200){
