@@ -2,11 +2,22 @@ var express = require('express');
 var router = express.Router();
 var dataController = require('../controllers/dataController.js');
 
+function requiresLogin(req, res, next){
+    if(req.session && req.session.userId){
+        return next();
+    }else{
+        var err = new Error("You must be logged in to view this page!");
+        err.status = 401;
+        return next(err);
+    }
+}
+
 /*
  * GET
  */
-router.get('/', dataController.list);
+router.get('/', requiresLogin, dataController.list);
 router.get('/add', dataController.add);
+router.get('/mydata', requiresLogin, dataController.showMine);
 
 /*
  * GET

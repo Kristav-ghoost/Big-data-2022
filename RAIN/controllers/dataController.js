@@ -32,6 +32,18 @@ module.exports = {
         })
     },
 
+    //Prikazi moje
+    showMine: function (req, res) {
+        var id = req.session.userId;
+
+        DataModel.find().populate('author').then(datas => {
+            var data = [];
+            data.dat = datas;
+            data.id = id;
+            return res.render('data/showMine', data);
+        })
+    },
+
     //Dodaj
     add: function (req, res) {
         return res.render('data/add');
