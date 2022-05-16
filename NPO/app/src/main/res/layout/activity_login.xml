@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_ozadje"
     tools:context=".Login">
 
     <TextView
@@ -35,6 +36,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="username"
+        android:textColor="@color/pisava"
         android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,18 +49,21 @@
         android:ems="10"
         android:inputType="textPassword"
         android:hint="password"
+        android:textColor="@color/pisava"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/loginBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        android:onClick="Login"
+        android:layout_width="120dp"
+        android:layout_height="45dp"
         android:layout_marginTop="30dp"
+        android:background="@drawable/button_style"
+        android:onClick="Login"
+        android:text="Login"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
@@ -76,11 +81,14 @@
         app:layout_constraintTop_toBottomOf="@+id/loginBtn"
         tools:ignore="OnClick" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/registerBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="160dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_style"
         android:text="Register"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />

@@ -50,6 +50,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     //Location array
     val locationArray: MutableList<com.example.lib.Location> = ArrayList()
     var latLonSum = 0.0
+    var lat: Double = 0.0
+    var lon: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,13 +80,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 currentLocation = locationResult.lastLocation
             }
         }
-
-        //Open your profile
-        binding.account.setOnClickListener{
-            val intent = Intent(this, Dashboard::class.java)
-            startActivity(intent)
-        }
-
         getLocation()
     }
 
@@ -102,8 +97,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             // Ce je prislo do tresljaja in ce je lokacija spremenjena dodaj v array
             if(diffAcc > 5){
                 getLocation()
-                val lat = binding.lat.text.toString().toDouble()
-                val lon = binding.lon.text.toString().toDouble()
                 if(latLonSum != (lat + lon)){
                     locationArray.add(com.example.lib.Location(lat, lon))
                     Timber.d("Added to arr")
@@ -141,9 +134,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                     if(location == null){
                         Toast.makeText(this, "Error finding location", Toast.LENGTH_SHORT).show()
                     }else{
-                        binding.lat.text = location.latitude.toString()
-                        binding.lon.text = location.longitude.toString()
-                        Toast.makeText(this, location.longitude.toString(), Toast.LENGTH_SHORT).show()
+                        lat = location.latitude
+                        lon = location.longitude
                     }
                 }
             }else{
@@ -192,10 +184,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
-    fun locate(view: android.view.View) {
-        getLocation()
-    }
-
     fun sendArray(view: android.view.View) {
         val gson = Gson()
 
@@ -210,6 +198,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             if (status_code != 200){
                 Toast.makeText(applicationContext, "Tezava", Toast.LENGTH_SHORT).show()
             }
+            val intent = Intent(this, StartActivity::class.java)
+            startActivity(intent)
+            finish()
         }
         catch (e: Exception){
             Timber.d(e.message)

@@ -18,19 +18,27 @@
         android:theme="@style/Theme.NPOProject"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".StartActivity"
+            android:exported="true"
+            android:theme="@style/Theme.NPOProject.NoActionBar"/>
+        <activity
             android:name=".Login"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.NPOProject.NoActionBar"/>
         <activity
             android:name=".Dashboard"
-            android:exported="true" />
+            android:exported="true"
+            android:noHistory = "true"
+            android:theme="@style/Theme.NPOProject.NoActionBar"/>
         <activity
             android:name=".Register"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.NPOProject.NoActionBar"/>
         <activity
             android:name=".IntroActivity"
             android:exported="true"
             android:noHistory="true"
-            android:label="">
+            android:theme="@style/Theme.NPOProject.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,6 +47,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:theme="@style/Theme.NPOProject.NoActionBar"
             android:exported="true" />
     </application>
 

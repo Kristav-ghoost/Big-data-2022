@@ -37,31 +37,10 @@ class Dashboard : AppCompatActivity() {
         app.saveV("")
         val i = Intent(this, Login::class.java)
         startActivity(i)
+        finish()
     }
 
-    fun Send_array(view: android.view.View) {
-        val gson = Gson()/*
-        val Location_array: Array<Location> = arrayOf(
-            Location(123,123),
-            Location(321,321)
-        );*/
-        val Location_array: MutableList<Location> = ArrayList()
-        Location_array.add(Location(123.1,123.1))
-
-        val jsonArray: String = gson.toJson(Location_array)
-        val author: String? = app.returnId()
-
-        try {
-            val fuel = Fuel.post("http://164.8.216.130:777/data/createPhone").jsonBody("{ \"data\" : $jsonArray, \"author\" : \"$author\" }").response { request, response, result -> }
-            Timber.d(fuel.get().toString())
-            val a = fuel.get()
-            val status_code: Int = a.statusCode
-            if (status_code != 200){
-                Toast.makeText(applicationContext, "Tezava", Toast.LENGTH_SHORT).show()
-            }
-        }
-        catch (e: Exception){
-            Timber.d(e.message)
-        }
+    fun Back(view: android.view.View) {
+        finish()
     }
 }
