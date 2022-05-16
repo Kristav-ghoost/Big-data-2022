@@ -72,8 +72,9 @@ class Login : AppCompatActivity() {
                     app.saveID(id_post)
                     app.saveEmail(email_post)
                     app.saveV(v_post)
-                    val intent = Intent(this, MainActivity::class.java)
+                    val intent = Intent(this, StartActivity::class.java)
                     startActivity(intent)
+                    finish()
                 }
                 else if (status_code == 401){
                     hideKeyboard()

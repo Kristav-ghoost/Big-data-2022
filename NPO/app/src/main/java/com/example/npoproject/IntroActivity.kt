@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.npoproject.databinding.ActivityIntroBinding
-import com.example.npoproject.databinding.ActivityLoginBinding
 
 class IntroActivity : AppCompatActivity() {
     private lateinit var binding: ActivityIntroBinding
@@ -18,7 +17,7 @@ class IntroActivity : AppCompatActivity() {
         app = application as MyApplication
 
         if (app.getLogin() == true){
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, StartActivity::class.java)
             startActivity(intent)
         }
         else{

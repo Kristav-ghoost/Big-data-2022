@@ -7,4 +7,15 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="navigation_color">#7ca5b8</color>
+    <color name="svetlo_modra">#add6ea</color>
+    <color name="zemno_modra">#4d7688</color>
+    <color name="gumb">#a9dbb8</color>
+    <color name="secondaryLightColor">#dbffea</color>
+    <color name="secondaryDarkColor">#79a988</color>
+    <color name="background_ozadje">#e1e2e1</color>
+    <color name="pisava">#1C1A1A</color>
+    <color name="rc_background">#b4b4b4</color>
+    <color name="hint">#747474</color>
 </resources>

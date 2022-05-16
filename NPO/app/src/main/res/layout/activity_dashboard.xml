@@ -4,19 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_ozadje"
     tools:context=".Dashboard">
 
-    <Button
+    <android.widget.Button
         android:id="@+id/odjava"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="80dp"
         android:onClick="Odjava"
         android:text="Odjava"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/button_style"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.526"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/poslji_array"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/nazaj"
+        app:layout_constraintTop_toBottomOf="@+id/v_user"
         tools:ignore="OnClick" />
 
     <TextView
@@ -63,16 +66,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email_user" />
 
-    <Button
-        android:id="@+id/poslji_array"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
-        android:text="Poslji array"
-        android:onClick="Send_array"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.526"
+    <android.widget.Button
+        android:id="@+id/nazaj"
+        android:layout_width="100dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/button_style"
+        android:onClick="Back"
+        android:text="Nazaj"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/odjava"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/v_user"
         tools:ignore="OnClick" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
