@@ -1,0 +1,45 @@
+<div id="map"></div>
+
+
+<h2 class="my_heading">DATA</h2>
+<hr>
+{{#each dat}}
+    {{#if (eq author._id ../id)}}
+        {{#each data}}
+            <p class="my_heading">Long: {{lat}}</p>
+            <p class="my_heading">Lat: {{lng}}</p>
+            <hr>
+        {{/each}}
+    {{/if}}
+{{/each}}
+<div  class="my_heading" style="text-align: center; margin-top: 50px"><a type="button" href="/">Take me back home</a></div>
+
+<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+<script>
+    map = new OpenLayers.Map("map");
+    map.addLayer(new OpenLayers.Layer.OSM());
+
+    var defCenter = new OpenLayers.LonLat(15.645881 ,46.554650)
+        .transform(
+            new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+            map.getProjectionObject() // to Spherical Mercator Projection
+        );
+
+    {{#each dat}}
+        {{#if (eq author._id ../id)}}
+            {{#each data}}
+                var lonLat = new OpenLayers.LonLat({{lng}}, {{lat}})
+                    .transform(
+                        new OpenLayers.Projection("EPSG:4326"),
+                        map.getProjectionObject()
+                    );
+                var markers = new OpenLayers.Layer.Markers( "Markers" );
+                map.addLayer(markers);
+                markers.addMarker(new OpenLayers.Marker(lonLat));        
+            {{/each}}
+        {{/if}}
+    {{/each}}
+
+    var zoom=10;
+    map.setCenter (defCenter, zoom);
+</script>
