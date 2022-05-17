@@ -1,15 +1,34 @@
-<h2 class="my_heading">ROAD TRACKER</h2>
+<div class="indexdiv">
+    <h1 class="my_heading">ROAD TRACKER</h1>
+<!--
+    {{#if ide}}
+        <p class="my_heading">Hello, <a type="button" href="users/profile">{{userName}}!</a></p>
+        <ul >
+            <li><a href="data">Data</a></li>
+            <li><a href="data/add">Add</a></li>
+        </ul>
+    {{else}}
+        <p  class="my_heading">Hello, stranger!</p>
+        <ul>
+            <li><a type="button" href="users/register">Register</a></li>
+            <li><a type="button" href="users/login">Login</a></li>
+        </ul>
+    {{/if}}
+-->
+    {{#if ide}}
+        <h3>Welcome back, <a type="button" href="users/profile">{{userName}}!</h3>
 
-{{#if ide}}
-    <p class="my_heading">Hello, <a type="button" href="users/profile">{{userName}}!</a></p>
-    <ul >
-        <li><a href="data">Data</a></li>
-        <li><a href="data/add">Add</a></li>
-    </ul>
-{{else}}
-    <p  class="my_heading">Hello, stranger!</p>
-    <ul>
-        <li><a type="button" href="users/register">Register</a></li>
-        <li><a type="button" href="users/login">Login</a></li>
-    </ul>
-{{/if}}
+        <div style="margin-top: 50px;"><a class="indexa" href="/data/mydata">My Data</a></div>
+        <br>
+        <br>
+        <a class="indexa" href="users/profile">Profile</a>
+    {{else}}
+        <h3>Welcome stranger</h3>
+
+        <div style="margin-top: 50px;"><a class="indexa" href="/users/register">Register</a></div>
+        <br>
+        <br>
+        <a class="indexa" href="users/login">Login</a>
+    {{/if}}
+    
+</div>

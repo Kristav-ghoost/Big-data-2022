@@ -71,7 +71,7 @@
       var lat = markers[i][1];
       var feature = new OpenLayers.Feature.Vector(
         new OpenLayers.Geometry.Point(lon, lat).transform(epsg4326, projectTo),
-        { description: "marker number " + i }
+        { description: "marker number " + i, text: "Test" }
       );
       vectorLayer[layerName.indexOf(markers[i][2])].addFeatures(feature);
     }

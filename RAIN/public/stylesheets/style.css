@@ -4,7 +4,8 @@ body {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
-  background-color:  #272727;
+  /*background-color:  #272727;*/
+  background-color: #1d2021;
   font-family: "Montserrat", sans-serif;
 
 
@@ -17,7 +18,8 @@ body {
 .navMenu {
   position: absolute;
   left: 50%;
-  background: #272727;
+  /*background: #272727;*/
+  background: #1d2021;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
@@ -85,17 +87,34 @@ body {
 }
 
 
+
 /* MAIN */
 
 .main{
   margin-top: 80px;
-  padding: 50px;
+  padding: 70px;
 }
 
 .my_heading{
   color: #f6f4e6;
 }
 
+.indexdiv{
+  text-align: center;
+  color: #f6f4e6;
+}
+
+.indexa {
+  color: #f6f4e6;
+  text-decoration: none;
+  font-size: 1.5em;
+  text-transform: uppercase;
+  font-weight: 500;
+  width: 200px;
+  border: 2px solid #f6f4e6;
+  padding: 5px;
+  margin-top: 10px;
+}
 
 /*button*/
 button,input[type=submit]{
@@ -173,7 +192,7 @@ form__group {
 
 #add_button{
   position: absolute;
-  left: 50%;
+  left: 46.5%;
   margin-top: 70px;
 }
 
@@ -188,4 +207,10 @@ a{
   height: 80vh;
   scroll-behavior: smooth;
   overflow: auto;
+}
+
+.profileBox{
+  margin-top: 50px;
+  color: #f6f4e6;
+  margin-left: 150px;
 }
