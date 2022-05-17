@@ -1,5 +1,5 @@
 package com.example.npoproject
-
+//http://164.8.216.130:777
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -44,12 +44,12 @@ class Login : AppCompatActivity() {
         val gson = GsonBuilder().setPrettyPrinting().create()
 
         if (binding.username.text.isNotEmpty() && binding.password.text.isNotEmpty()){
-            val username = binding.username.text
-            val password = binding.password.text
+            val username = binding.username.text.toString()
+            val password = binding.password.text.toString()
 
 
             try {
-                val fuel = Fuel.post("http://164.8.216.130:777/users/loginPhone").jsonBody("{ \"username\" : \"$username\", \"password\" : \"$password\" }").response { request, response, result -> }
+                val fuel = Fuel.post("http://192.168.100.30:3000/users/loginPhone").jsonBody("{ \"username\" : \"$username\", \"password\" : \"$password\" }").response { request, response, result -> }
 
                 val a = fuel.get()
                 val status_code: Int = a.statusCode
@@ -72,9 +72,16 @@ class Login : AppCompatActivity() {
                     app.saveID(id_post)
                     app.saveEmail(email_post)
                     app.saveV(v_post)
-                    val intent = Intent(this, StartActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    if (username == "Dejan" || username == "Jost" || username == "Albert"){
+                        val intent = Intent(this, AuthenticateActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                    else{
+                        val intent = Intent(this, StartActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
                 }
                 else if (status_code == 401){
                     hideKeyboard()

@@ -22,6 +22,7 @@ router.get('/:id', userController.show);
 router.post('/', userController.create);
 router.post('/login', userController.login);
 router.post('/loginphone', userController.loginPhone);
+router.post('/login_2fa', userController.login_2fa);
 
 /*
  * PUT
