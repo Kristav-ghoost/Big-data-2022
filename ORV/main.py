@@ -1,6 +1,8 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 import cv2
 import pickle
-
+import sys
 face_class = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
 
 model = cv2.face_LBPHFaceRecognizer.create(radius=1, neighbors=8, grid_x=8, grid_y=8)
@@ -12,7 +14,7 @@ with open("label.pickle", "rb") as f:
     labels = {v: k for k, v in old_labels.items()}
 
 # Testna slika
-image = cv2.imread("testImage.jpg")
+image = cv2.imread(sys.argv[1])
 
 # Zaznaj obraz
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
