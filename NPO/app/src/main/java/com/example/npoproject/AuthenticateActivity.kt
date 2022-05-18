@@ -15,6 +15,8 @@ import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FileDataPart
 import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import timber.log.Timber
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -79,13 +81,17 @@ class AuthenticateActivity : AppCompatActivity() {
             val fuel = Fuel.post("http://164.8.216.130:777/users/login_2fa").jsonBody("{ \"data\" : \"$img64\", \"user\" : \"$user\" }").response { request, response, result -> }
             Timber.d(fuel.get().toString())
             val a = fuel.get()
+            val myBody = String(a.data)
+            val parseString = JsonParser.parseString(myBody)
+            val jsonObject = gson.fromJson(parseString, JsonObject::class.java)
+            val name = jsonObject.get("name").asString
             val status_code: Int = a.statusCode
             if (status_code != 200){
                 Toast.makeText(applicationContext, "Tezava", Toast.LENGTH_SHORT).show()
             }
-            //val intent = Intent(this, StartActivity::class.java)
-            //startActivity(intent)
-            //finish()
+            else{
+                Toast.makeText(applicationContext, name, Toast.LENGTH_LONG).show()
+            }
         }
         catch (e: Exception){
             Timber.d(e.message)
