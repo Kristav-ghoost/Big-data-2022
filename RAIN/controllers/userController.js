@@ -1,5 +1,6 @@
 var UserModel = require('../models/userModel.js');
 var fs = require('fs');
+const { exec } = require("child_process");
 
 /**
  * userController.js
@@ -47,20 +48,30 @@ module.exports = {
         });
     },
 
+    //docker run -it --rm -v /home/projekt/projekt/ORV:/app app:1.0 leo.jpg
     login_2fa: function (req, res) {
-        
         try {
             let data = req.body.data
             let user = req.body.user
-            const path = './images/' + user + '_' + Date.now()+'.png'
-            
+            let name = user + '_' + Date.now()+'.png'
+            const path = '/home/projekt/projekt/ORV/' + name
             fs.writeFileSync(path, data,  {encoding: 'base64'});
-    
-            return res.status(200).json("dela");
+
+            exec("docker run -i --rm -v /home/projekt/projekt/ORV:/app app:1.0 " + name, (error, stdout, stderr) => {
+                if (error) {
+                    console.log(`error: ${error.message}`);
+                    return res.status(400).json(error.message);
+                }
+                if (stderr) {
+                    return res.status(400).json(stderr);
+                }
+                console.log(`stdout: ${stdout}`);
+                return res.status(200).json({"name": stdout.replace(/\n/g, '').replace(/"/g, '')});
+            });
+
         } catch (e) {
             console.log(e)
         }
-        
     },
 
     //Login phone (za NPO)
