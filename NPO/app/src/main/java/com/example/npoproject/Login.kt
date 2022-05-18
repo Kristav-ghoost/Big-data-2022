@@ -49,7 +49,7 @@ class Login : AppCompatActivity() {
 
 
             try {
-                val fuel = Fuel.post("http://192.168.100.30:3000/users/loginPhone").jsonBody("{ \"username\" : \"$username\", \"password\" : \"$password\" }").response { request, response, result -> }
+                val fuel = Fuel.post("http://164.8.216.130:777/users/loginPhone").jsonBody("{ \"username\" : \"$username\", \"password\" : \"$password\" }").response { request, response, result -> }
 
                 val a = fuel.get()
                 val status_code: Int = a.statusCode

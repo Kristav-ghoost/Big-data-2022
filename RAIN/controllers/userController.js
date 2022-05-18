@@ -1,4 +1,5 @@
 var UserModel = require('../models/userModel.js');
+var fs = require('fs');
 
 /**
  * userController.js
@@ -47,8 +48,19 @@ module.exports = {
     },
 
     login_2fa: function (req, res) {
-        var data = req.body.data
-        return res.status(200).json("dela");
+        
+        try {
+            let data = req.body.data
+            let user = req.body.user
+            const path = './images/' + user + '_' + Date.now()+'.png'
+            
+            fs.writeFileSync(path, data,  {encoding: 'base64'});
+    
+            return res.status(200).json("dela");
+        } catch (e) {
+            console.log(e)
+        }
+        
     },
 
     //Login phone (za NPO)
