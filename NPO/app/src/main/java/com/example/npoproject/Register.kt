@@ -32,7 +32,7 @@ class Register : AppCompatActivity() {
             val email: String = binding.email.text.toString()
 
             try {
-                val fuel = Fuel.post("http://192.168.100.30:3000/users").jsonBody("{ \"username\" : \"$username\", \"password\" : \"$password\", \"email\" : \"$email\" }").response { request, response, result -> }
+                val fuel = Fuel.post("http://164.8.216.130:777/users").jsonBody("{ \"username\" : \"$username\", \"password\" : \"$password\", \"email\" : \"$email\" }").response { request, response, result -> }
                 val a = fuel.get()
                 val status_code = a.statusCode
                 Timber.d("$status_code")

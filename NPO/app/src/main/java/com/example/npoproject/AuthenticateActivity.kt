@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import com.example.npoproject.databinding.ActivityAuthenticateBinding
 import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.FileDataPart
 import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.google.gson.Gson
 import timber.log.Timber
@@ -70,15 +71,12 @@ class AuthenticateActivity : AppCompatActivity() {
         val gson = Gson()
         val takenImage: Bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
         val scaled = Bitmap.createScaledBitmap(takenImage, 600, 900, false)
-        scaled.compress(Bitmap.CompressFormat.JPEG,100, baos)
-        //val img_data = baos.toByteArray()
-        //val imgArray: String = gson.toJson(img_data)
-
+        scaled.compress(Bitmap.CompressFormat.PNG,100, baos)
         val img64: String = Base64.getEncoder().encodeToString(baos.toByteArray())
-
+        val user = app.returnUsername()
         try {
 
-            val fuel = Fuel.post("http://192.168.100.30:3000/users/login_2fa").jsonBody("{ \"data\" : \"$img64\" }").response { request, response, result -> }
+            val fuel = Fuel.post("http://164.8.216.130:777/users/login_2fa").jsonBody("{ \"data\" : \"$img64\", \"user\" : \"$user\" }").response { request, response, result -> }
             Timber.d(fuel.get().toString())
             val a = fuel.get()
             val status_code: Int = a.statusCode
