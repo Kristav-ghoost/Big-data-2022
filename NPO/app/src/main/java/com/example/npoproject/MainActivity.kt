@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             preAccValue = currAccValue
 
             // Ce je prislo do tresljaja in ce je lokacija spremenjena dodaj v array
-            if(diffAcc > 5){
+            if(diffAcc > 12){
                 getLocation()
                 if(latLonSum != (lat + lon)){
                     locationArray.add(com.example.lib.Location(lat, lon))
@@ -104,9 +104,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 }
             }
 
-            binding.one.setText("Curr = " + currAccValue)
-            binding.two.setText("Pre = " + preAccValue)
-            binding.three.text = "Diff = " + diffAcc
+            //binding.one.setText("Curr = " + currAccValue)
+            //binding.two.setText("Pre = " + preAccValue)
+            binding.three.text = "Power: " + diffAcc
 
             binding.progressBar2.progress = diffAcc
         }
@@ -195,9 +195,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             Timber.d(fuel.get().toString())
             val a = fuel.get()
             val status_code: Int = a.statusCode
-            if (status_code != 200){
+            /*if (status_code != 200){
                 Toast.makeText(applicationContext, "Tezava", Toast.LENGTH_SHORT).show()
-            }
+            }*/
             val intent = Intent(this, StartActivity::class.java)
             startActivity(intent)
             finish()

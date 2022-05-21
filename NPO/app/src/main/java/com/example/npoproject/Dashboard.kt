@@ -23,10 +23,10 @@ class Dashboard : AppCompatActivity() {
         setContentView(binding.root)
         app = application as MyApplication
 
-        binding.id.setText(app.returnId())
+        //binding.id.setText(app.returnId())
         binding.username.setText(app.returnUsername())
         binding.emailUser.setText(app.returnEmail())
-        binding.vUser.setText(app.returnV())
+        //binding.vUser.setText(app.returnV())
     }
 
     fun Odjava(view: android.view.View) {
