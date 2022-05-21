@@ -35,11 +35,11 @@
     <android.widget.Button
         android:id="@+id/button2"
         android:layout_width="100dp"
-        android:layout_height="45dp"
+        android:layout_height="48dp"
         android:layout_marginTop="50dp"
+        android:background="@drawable/button_style"
         android:onClick="sendArray"
         android:text="STOP"
-        android:background="@drawable/button_style"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

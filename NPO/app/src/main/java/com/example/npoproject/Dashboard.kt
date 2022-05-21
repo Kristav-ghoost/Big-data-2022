@@ -3,15 +3,7 @@ package com.example.npoproject
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.npoproject.databinding.ActivityDashboardBinding
-import com.example.npoproject.databinding.ActivityLoginBinding
 import android.content.Intent
-import android.widget.Toast
-import com.example.lib.Location
-import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.extensions.jsonBody
-import com.google.gson.Gson
-import timber.log.Timber
-import java.lang.Exception
 
 class Dashboard : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardBinding

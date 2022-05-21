@@ -20,12 +20,17 @@ import android.telecom.TelecomManager.EXTRA_LOCATION
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.lib.MyLocation
 import com.example.npoproject.databinding.ActivityMainBinding
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.google.android.gms.location.*
 import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import org.json.JSONObject
 import timber.log.Timber
 import java.lang.Exception
 import kotlin.math.sqrt
@@ -48,7 +53,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private var currentLocation: Location? = null
 
     //Location array
-    val locationArray: MutableList<com.example.lib.Location> = ArrayList()
+    val myLocationArray: MutableList<com.example.lib.MyLocation> = ArrayList()
     var latLonSum = 0.0
     var lat: Double = 0.0
     var lon: Double = 0.0
@@ -58,6 +63,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         app = application as MyApplication
+        app.data.list.clear()
+        app.save()
 
         //Sensor
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
@@ -98,9 +105,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             if(diffAcc > 12){
                 getLocation()
                 if(latLonSum != (lat + lon)){
-                    locationArray.add(com.example.lib.Location(lat, lon))
+                    //locationArray.add(com.example.lib.Location(lat, lon))
+                    app.data.list.add(MyLocation(lat, lon, diffAcc))
+                    app.save()
                     Timber.d("Added to arr")
                     latLonSum = lat + lon
+                    Thread.sleep(500)
                 }
             }
 
@@ -185,19 +195,21 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     fun sendArray(view: android.view.View) {
-        val gson = Gson()
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        val myBody = app.return_array()
+        val parseString = JsonParser.parseString(myBody)
+        val jsonObject = gson.fromJson(parseString, JsonObject::class.java)
+        val mylist = jsonObject.get("list").asJsonArray
 
-        val jsonArray: String = gson.toJson(locationArray)
         val author: String? = app.returnId()
+        app.data.list.clear()
+        app.save()
 
         try {
-            val fuel = Fuel.post("http://164.8.216.130:777/data/createPhone").jsonBody("{ \"data\" : $jsonArray, \"author\" : \"$author\" }").response { request, response, result -> }
+            val fuel = Fuel.post("http://164.8.216.130:777/data/createPhone").jsonBody("{ \"data\" : $mylist, \"author\" : \"$author\" }").response { request, response, result -> }
             Timber.d(fuel.get().toString())
             val a = fuel.get()
             val status_code: Int = a.statusCode
-            /*if (status_code != 200){
-                Toast.makeText(applicationContext, "Tezava", Toast.LENGTH_SHORT).show()
-            }*/
             val intent = Intent(this, StartActivity::class.java)
             startActivity(intent)
             finish()

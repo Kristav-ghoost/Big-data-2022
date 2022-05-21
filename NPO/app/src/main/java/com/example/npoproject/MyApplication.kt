@@ -3,10 +3,14 @@ package com.example.npoproject
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.lib.List
+import com.example.lib.MyLocation
 import com.google.gson.Gson
+import org.apache.commons.io.FileUtils
 import timber.log.Timber
+import tomatobean.jsonparser.toJson
 import java.io.File
-import java.util.*
+import java.io.IOException
 
 const val shared_preferences = "shared.data"
 const val json_data = "mydata.json"
@@ -15,6 +19,7 @@ class MyApplication: Application(){
     lateinit var gson: Gson
     lateinit var file: File
     lateinit var sharedPref: SharedPreferences
+    lateinit var data: List
 
     override fun onCreate() {
         Timber.plant(Timber.DebugTree());
@@ -23,7 +28,32 @@ class MyApplication: Application(){
         gson = Gson()
         file = File(filesDir, json_data)
         Timber.d("File path ${file.path}")
+        initData()
         super.onCreate()
+    }
+
+    fun return_array(): String?{
+        val data = FileUtils.readFileToString(file)
+        return data
+    }
+
+    fun initData() {
+        data = try {
+            Timber.d("My file data: ${FileUtils.readFileToString(file)}")
+            gson.fromJson(FileUtils.readFileToString(file), List::class.java)
+        } catch (e: IOException){
+            Timber.d("No file init data")
+            List("mylist")
+        }
+    }
+
+    fun save(){
+        try {
+            FileUtils.writeStringToFile(file, gson.toJson(data))
+            Timber.d("Saved to file " + file.path)
+        } catch (e: IOException){
+            Timber.d("Can not save to file " + file.path)
+        }
     }
 
     //username

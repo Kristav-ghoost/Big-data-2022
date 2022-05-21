@@ -79,6 +79,7 @@ module.exports = {
     create: function (req, res) {
         var data = new DataModel({
             data: req.body.data,
+            time: new Date(),
             author: req.session.userId
         });
 
@@ -97,6 +98,7 @@ module.exports = {
     createPhone: function (req, res) {
         var data = new DataModel({
             data: req.body.data,
+            time: new Date(),
             author: req.body.author
         });
 
