@@ -44,6 +44,29 @@ module.exports = {
         })
     },
 
+    //Prikazi chart
+    showRides: function (req, res) {
+        var id = req.session.userId;
+
+        DataModel.find().populate('author').then(datas => {
+            var data = [];
+            data.dat = datas;
+            data.id = id;
+            return res.render('data/rides', data);
+        })
+    },
+
+    showOneRide: function (req, res) {
+        var id = req.session.userId;
+
+        DataModel.find().populate('author').then(datas => {
+            var data = [];
+            data.dat = datas;
+            data.id = id;
+            return res.render('data/showRide', data);
+        })
+    },
+
     //Dodaj
     add: function (req, res) {
         return res.render('data/add');
