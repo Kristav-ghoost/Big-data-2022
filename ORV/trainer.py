@@ -20,7 +20,7 @@ for root, dirs, files in os.walk(IMAGE_DIRECTORY):
     for file in files:
         if file.endswith("png") or file.endswith("jpg"):
             path = os.path.join(root, file)  # Pot do slike
-            label = os.path.basename(root).lower()  # ime
+            label = os.path.basename(root)  # ime
 
             # tabela label
             if label not in label_ids:
