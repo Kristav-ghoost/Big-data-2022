@@ -44,7 +44,7 @@ module.exports = {
         })
     },
 
-    //Prikazi chart
+    //Prikazi 
     showRides: function (req, res) {
         var id = req.session.userId;
 
@@ -55,14 +55,17 @@ module.exports = {
             return res.render('data/rides', data);
         })
     },
-
+    
+    //Prikazi chart
     showOneRide: function (req, res) {
         var id = req.session.userId;
+        var idR = req.params.id;
 
         DataModel.find().populate('author').then(datas => {
             var data = [];
             data.dat = datas;
             data.id = id;
+            data.idData = idR.substring(1);
             return res.render('data/showRide', data);
         })
     },
@@ -100,9 +103,10 @@ module.exports = {
      * dataController.create()
      */
     create: function (req, res) {
+        var today = new Date();
         var data = new DataModel({
             data: req.body.data,
-            time: new Date(),
+            time: today.toLocaleString(),
             author: req.session.userId
         });
 
@@ -119,9 +123,10 @@ module.exports = {
     },
 
     createPhone: function (req, res) {
+        var today = new Date();
         var data = new DataModel({
             data: req.body.data,
-            time: new Date(),
+            time: today.toLocaleString(),
             author: req.body.author
         });
 

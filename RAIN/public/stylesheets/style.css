@@ -214,3 +214,23 @@ a{
   color: #f6f4e6;
   margin-left: 150px;
 }
+
+
+/* Rides */
+.ridelist{
+  border: 2px solid #f6f4e6;
+  padding: 3px;
+  margin: 8px;
+  width: 700px;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: -4px;
+} 
+
+.ridelist a{
+  text-decoration: none;
+}
+
+.ridediv{
+  text-align: center;
+}

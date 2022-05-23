@@ -1,4 +1,10 @@
-{{#each dat}}
-    <a href="myrides/:24">{{time}}</a>
-    <br>
-{{/each}}
+<h2 style="text-align: center; color: #f6f4e6">ALL YOUR RIDES</h2>
+<div class="ridediv">
+    {{#each dat}}
+        {{#if (eq ../id author._id)}}
+            <div class="ridelist">
+                <a href="myrides/:{{_id}}">{{time}}</a>
+            </div>
+        {{/if}}
+    {{/each}}
+</div>
