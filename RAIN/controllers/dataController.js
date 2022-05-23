@@ -1,4 +1,5 @@
 var DataModel = require('../models/dataModel.js');
+const dayjs = require('dayjs');
 
 /**
  * dataController.js
@@ -103,10 +104,10 @@ module.exports = {
      * dataController.create()
      */
     create: function (req, res) {
-        var today = new Date();
+        var today = dayjs();
         var data = new DataModel({
             data: req.body.data,
-            time: today.toLocaleString(),
+            time: today.format("YYYY-MM-DD h:mm:ss"),
             author: req.session.userId
         });
 
@@ -123,10 +124,10 @@ module.exports = {
     },
 
     createPhone: function (req, res) {
-        var today = new Date();
+        var today = dayjs();
         var data = new DataModel({
             data: req.body.data,
-            time: today.toLocaleString(),
+            time: today.format("DD-MM-YYYY HH:mm:ss"),
             author: req.body.author
         });
 
