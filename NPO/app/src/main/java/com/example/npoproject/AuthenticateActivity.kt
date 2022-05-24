@@ -85,13 +85,28 @@ class AuthenticateActivity : AppCompatActivity() {
             val parseString = JsonParser.parseString(myBody)
             val jsonObject = gson.fromJson(parseString, JsonObject::class.java)
             val name = jsonObject.get("name").asString
-            val status_code: Int = a.statusCode
-            if (status_code != 200){
-                Toast.makeText(applicationContext, "Tezava", Toast.LENGTH_SHORT).show()
-            }
-            else{
-                Toast.makeText(applicationContext, name, Toast.LENGTH_LONG).show()
-            }
+            //val status_code: Int = a.statusCode
+            //if (status_code != 200){
+            //    Toast.makeText(applicationContext, "Tezava", Toast.LENGTH_SHORT).show()
+            //}
+            //else{
+                if(name == app.returnUsername()){
+                    Toast.makeText(applicationContext, "Welcome $name!", Toast.LENGTH_LONG).show()
+                    val i = Intent(this, StartActivity::class.java)
+                    startActivity(i)
+                    finish()
+                }else{
+                    Toast.makeText(applicationContext, "Access denied!", Toast.LENGTH_LONG).show()
+                    app.saveLogin(false)
+                    app.saveUsername("")
+                    app.saveID("")
+                    app.saveEmail("")
+                    app.saveV("")
+                    val i = Intent(this, Login::class.java)
+                    startActivity(i)
+                    finish()
+                }
+            //}
         }
         catch (e: Exception){
             Timber.d(e.message)
