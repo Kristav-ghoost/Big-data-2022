@@ -14,6 +14,9 @@ trainer_array = []
 label_array = []
 counter = 0
 label_ids = {}
+# albert = 0
+# duh = 0
+# jost = 0
 
 # Zanka, da pridemo do vseh slik v mapi
 for root, dirs, files in os.walk(IMAGE_DIRECTORY):
@@ -30,7 +33,10 @@ for root, dirs, files in os.walk(IMAGE_DIRECTORY):
 
             # Odpremo sliko iz poti in convertamo v sivo
             image = Image.open(path).convert("L")
-            image_array = np.array(image, "uint8")
+
+            # Resize
+            imageRes = image.resize((900, 1200))
+            image_array = np.array(imageRes, "uint8")
 
             # Iz slike zaznamo obraz nato pa shranimo v polje
             face = face_class.detectMultiScale(image_array, scaleFactor=1.5, minNeighbors=5)
@@ -38,6 +44,14 @@ for root, dirs, files in os.walk(IMAGE_DIRECTORY):
                 roi = image_array[y:y + h, x:x + w]
                 trainer_array.append(roi)
                 label_array.append(label_id)
+                """
+                if label == "Albert":
+                    albert += 1
+                elif label == "Dejan":
+                    duh += 1
+                else:
+                    jost += 1
+                """
 
 # Shranim imena label
 with open("label.pickle", "wb") as f:
@@ -49,3 +63,7 @@ model = cv2.face_LBPHFaceRecognizer.create(radius=1, neighbors=8, grid_x=8, grid
 # Natreniran model se shrani v trainer.yml
 model.train(trainer_array, np.array(label_array))
 model.save("trainer.yml")
+
+# print("albert: ", albert)
+# print("duh: ", duh)
+# print("jost: ", jost)
