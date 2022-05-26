@@ -62,7 +62,7 @@ class AuthenticateActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val takenImage: Bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
-            val two = Bitmap.createScaledBitmap(takenImage, 900, 1300, false)
+            val two = Bitmap.createScaledBitmap(takenImage, 900, 1200, false)
             binding.imageView.setImageBitmap(two)
         } else {
             super.onActivityResult(requestCode, resultCode, data)
@@ -72,7 +72,7 @@ class AuthenticateActivity : AppCompatActivity() {
     fun Send(view: android.view.View) {
         val gson = Gson()
         val takenImage: Bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
-        val scaled = Bitmap.createScaledBitmap(takenImage, 600, 900, false)
+        val scaled = Bitmap.createScaledBitmap(takenImage, 900, 1200, false)
         scaled.compress(Bitmap.CompressFormat.PNG,100, baos)
         val img64: String = Base64.getEncoder().encodeToString(baos.toByteArray())
         val user = app.returnUsername()
