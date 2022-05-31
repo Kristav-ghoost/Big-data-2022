@@ -14,9 +14,9 @@ trainer_array = []
 label_array = []
 counter = 0
 label_ids = {}
-# albert = 0
-# duh = 0
-# jost = 0
+albert = 0
+duh = 0
+jost = 0
 
 # Zanka, da pridemo do vseh slik v mapi
 for root, dirs, files in os.walk(IMAGE_DIRECTORY):
@@ -44,14 +44,14 @@ for root, dirs, files in os.walk(IMAGE_DIRECTORY):
                 roi = image_array[y:y + h, x:x + w]
                 trainer_array.append(roi)
                 label_array.append(label_id)
-                """
+
                 if label == "Albert":
                     albert += 1
                 elif label == "Dejan":
                     duh += 1
                 else:
                     jost += 1
-                """
+
 
 # Shranim imena label
 with open("label.pickle", "wb") as f:
@@ -64,6 +64,6 @@ model = cv2.face_LBPHFaceRecognizer.create(radius=1, neighbors=8, grid_x=8, grid
 model.train(trainer_array, np.array(label_array))
 model.save("trainer.yml")
 
-# print("albert: ", albert)
-# print("duh: ", duh)
-# print("jost: ", jost)
+print("albert: ", albert)
+print("duh: ", duh)
+print("jost: ", jost)
