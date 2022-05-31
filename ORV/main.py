@@ -15,7 +15,7 @@ with open("label.pickle", "rb") as f:
 
 # Testna slika
 image = cv2.imread(sys.argv[1])
-imageRes = cv2.resize(image, (1200, 900))
+imageRes = cv2.resize(image, (900, 1200))
 
 # Zaznaj obraz
 gray = cv2.cvtColor(imageRes, cv2.COLOR_BGR2GRAY)
