@@ -29,6 +29,15 @@ userSchema.statics.authenticate = function (username, password, callback) {
         });
 };
 
+userSchema.statics.findMyUser = function (username, password) {
+    User.findOne({ username }).exec(function (err, user) {
+            if (err) {
+                return  new Error("User not found")
+            }
+            return user
+        });
+}
+
 userSchema.pre('save', function (next) {
     var user = this;
     bcrypt.hash(user.password, 10, function (err, hash) {

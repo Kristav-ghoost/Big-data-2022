@@ -1,0 +1,21 @@
+FROM python:3.9-slim
+
+MAINTAINER Projekt-Microsoft
+
+WORKDIR /app 
+
+RUN apt update
+
+RUN apt install ffmpeg libsm6 libxext6  -y
+
+RUN pip install opencv-contrib-python
+
+COPY ./hide.sh ./
+
+RUN chmod +x hide.sh
+
+ENTRYPOINT ["sh", "./hide.sh"]
+
+CMD ["param1", "param2"]
+
+#docker run -i --rm -v /home/kristav/Desktop/3_letnik/Vecpredstavnost-projekt:/app hide:1.0 tyson.jpg "to je text"

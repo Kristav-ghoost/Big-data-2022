@@ -1,6 +1,19 @@
 var UserModel = require('../models/userModel.js');
 var fs = require('fs');
 const { exec } = require("child_process");
+var bcrypt = require('bcrypt');
+const path = require("path");
+
+function execShellCommand(cmd) {
+    return new Promise((resolve, reject) => {
+     exec(cmd, (error, stdout, stderr) => {
+      if (error) {
+       console.warn(error);
+      }
+      resolve(stdout? stdout : stderr);
+     });
+    });
+   }
 
 /**
  * userController.js
@@ -221,5 +234,42 @@ module.exports = {
 
             return res.status(204).json();
         });
+    },
+
+    show_login_register: async (req, res) => {
+        return res.render('user/login_photo')
+    },
+
+    show_save_in_steg: async (req, res) => {
+        return res.render('user/save_steg')
+    },
+
+    check_photo: async (req, res) => {
+        try {
+            const run = await execShellCommand('docker run -i -v /home/kristav/Desktop/3_letnik/Projekt/RAIN/files:/app extract:1.0 ' + req.file.filename)
+            const array = await run.split("*")
+            const user = await UserModel.findOne({username: array[0]})
+            if (user){
+                if (bcrypt.compare(array[1].replace(/\r?\n|\r/g, ""), user.password)){
+                    req.session.userId = user._id;
+                    req.session.userName = user.username;
+                    return res.redirect("/");
+                }
+            } else {
+                res.status(401).send({err: "User not found"})
+            }
+        } catch (err){
+            res.json({err})
+        }
+    },
+
+    save_in_steg: async (req, res) => {
+        try {   
+            await exec("docker run -i -v /home/kristav/Desktop/3_letnik/Projekt/RAIN/files:/app hide:1.0 " + req.file.filename + ' ' + req.body.username+'*'+req.body.password)
+            return res.download("/home/kristav/Desktop/3_letnik/Projekt/RAIN/files/stegimage.png")
+        } catch(e){
+            res.status(401).json({err: e})
+        }
     }
+
 };
