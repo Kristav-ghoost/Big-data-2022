@@ -6,7 +6,7 @@ var logger = require('morgan');
 
 
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb://rai_user:razvojspletnihaplikacij@164.8.216.130/rai_db?authSource=admin';
+var mongoDB = 'mongodb://rai_user:razvojspletnihaplikacij@164.8.220.63:6492/rai_db?authSource=rai_db';
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;

@@ -1,5 +1,6 @@
 package com.example.npoproject
 //http://164.8.216.130:777
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -40,6 +41,7 @@ class Login : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("NotConstructor")
     fun Login(view: android.view.View) {
         val gson = GsonBuilder().setPrettyPrinting().create()
 
@@ -49,7 +51,7 @@ class Login : AppCompatActivity() {
 
 
             try {
-                val fuel = Fuel.post("http://164.8.216.130:777/users/loginPhone").jsonBody("{ \"username\" : \"$username\", \"password\" : \"$password\" }").response { request, response, result -> }
+                val fuel = Fuel.post("http://164.8.220.63:81/users/loginPhone").jsonBody("{ \"username\" : \"$username\", \"password\" : \"$password\" }").response { request, response, result -> }
 
                 val a = fuel.get()
                 val status_code: Int = a.statusCode

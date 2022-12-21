@@ -206,7 +206,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         app.save()
 
         try {
-            val fuel = Fuel.post("http://164.8.216.130:777/data/createPhone").jsonBody("{ \"data\" : $mylist, \"author\" : \"$author\" }").response { request, response, result -> }
+            val fuel = Fuel.post("http://164.8.220.63:81/data/createPhone").jsonBody("{ \"data\" : $mylist, \"author\" : \"$author\" }").response { request, response, result -> }
             Timber.d(fuel.get().toString())
             val a = fuel.get()
             val status_code: Int = a.statusCode

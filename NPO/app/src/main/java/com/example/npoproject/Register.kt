@@ -1,5 +1,6 @@
 package com.example.npoproject
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -24,6 +25,7 @@ class Register : AppCompatActivity() {
         app = application as MyApplication
     }
 
+    @SuppressLint("NotConstructor")
     fun Register(view: android.view.View) {
 
         if (binding.username.text.isNotEmpty() && binding.password.text.isNotEmpty() && binding.email.text.isNotEmpty()){
@@ -32,7 +34,7 @@ class Register : AppCompatActivity() {
             val email: String = binding.email.text.toString()
 
             try {
-                val fuel = Fuel.post("http://164.8.216.130:777/users").jsonBody("{ \"username\" : \"$username\", \"password\" : \"$password\", \"email\" : \"$email\" }").response { request, response, result -> }
+                val fuel = Fuel.post("http://164.8.220.63:81/users").jsonBody("{ \"username\" : \"$username\", \"password\" : \"$password\", \"email\" : \"$email\" }").response { request, response, result -> }
                 val a = fuel.get()
                 val status_code = a.statusCode
                 Timber.d("$status_code")
