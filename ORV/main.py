@@ -27,5 +27,6 @@ for x, y, w, h in face:
 # Prediction
 id_, conf = model.predict(roi)
 print(labels[id_])
+# print(labels)
 # cv2.imshow("image", roi)
 # cv2.waitKey(0)
