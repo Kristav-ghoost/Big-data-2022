@@ -13,7 +13,8 @@ function execShellCommand(cmd) {
       resolve(stdout? stdout : stderr);
      });
     });
-   }
+}
+
 
 /**
  * userController.js
@@ -246,7 +247,7 @@ module.exports = {
 
     check_photo: async (req, res) => {
         try {
-            const run = await execShellCommand('docker run -i -v /home/kristav/Desktop/3_letnik/Projekt/RAIN/files:/app extract:1.0 ' + req.file.filename)
+            const run = await execShellCommand('docker run -i --rm -v /home/kristav/projekt/RAIN/files:/app extract:1.0 ' + req.file.filename)
             const array = await run.split("*")
             const user = await UserModel.findOne({username: array[0]})
             if (user){
@@ -263,10 +264,20 @@ module.exports = {
         }
     },
 
-    save_in_steg: async (req, res) => {
+    save_in_steg: function (req, res) {
         try {   
-            await exec("docker run -i -v /home/kristav/Desktop/3_letnik/Projekt/RAIN/files:/app hide:1.0 " + req.file.filename + ' ' + req.body.username+'*'+req.body.password)
-            return res.download("/home/kristav/Desktop/3_letnik/Projekt/RAIN/files/stegimage.png")
+	        exec("docker run -i --rm -v /home/kristav/projekt/RAIN/files:/app hide:1.0 " + req.file.filename + ' ' + req.body.username+'*'+req.body.password, (error, stdout, stderr) => {
+                if (error) {
+                    console.log(`error: ${error.message}`);
+                    return res.status(400).json(error.message);
+                }
+                if (stderr) {
+                    return res.status(400).json(stderr);
+                }
+                res.download("/home/kristav/projekt/RAIN/files/stegimage.png", function(err){
+                    exec("rm /home/kristav/projekt/RAIN/files/stegimage.png");
+                })
+            });
         } catch(e){
             res.status(401).json({err: e})
         }
