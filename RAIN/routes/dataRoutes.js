@@ -19,12 +19,14 @@ router.get('/', requiresLogin, dataController.list);
 router.get('/add', dataController.add);
 router.get('/mydata', requiresLogin, dataController.showMine);
 router.get('/myrides', requiresLogin, dataController.showRides);
+router.get('/grafikaRide', dataController.grafika_ride);
 
 /*
  * GET
  */
 router.get('/:id', dataController.show);
 router.get('/myrides/:id', dataController.showOneRide);
+
 
 
 /*

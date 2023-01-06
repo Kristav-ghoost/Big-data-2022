@@ -195,5 +195,18 @@ module.exports = {
 
             return res.status(204).json();
         });
+    },
+
+    grafika_ride: (req, res) => {
+        var id = '63b7fe17716a87601cd5bb93'
+        DataModel.findById(id, function (err, data) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when finding the data.',
+                    error: err
+                });
+            }
+            return res.status(200).send(data.data);
+        });
     }
 };
